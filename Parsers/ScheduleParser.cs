@@ -24,6 +24,7 @@ namespace TelegramBot.Parsers
             var getScheduleRequest = new GetRequest($"https://urfu.ru/api/schedule/groups/lessons/{groupId.data}/{date}/");
             getScheduleRequest.Run();
             return getScheduleRequest.Response;//пока что возвращает месиво из html, надо парсить html
+            //я щас здесь насру
         }
     }
 }
