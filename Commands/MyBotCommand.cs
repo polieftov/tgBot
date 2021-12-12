@@ -6,7 +6,7 @@ using Telegram.Bot;
 
 namespace TelegramBot.Commands
 {
-    abstract class MyBotCommand// команды боту по типу /расписание, /баллы и тд.
+    public abstract class MyBotCommand// команды боту по типу /расписание, /баллы и тд.
     {
 
         public IParser parser;

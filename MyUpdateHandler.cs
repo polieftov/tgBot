@@ -27,9 +27,16 @@ namespace TelegramBot
             var messageText = update.Message.Text;
             var commandName = messageText.Split()[0];//парсит текст комманды
             var cmd = executor.FindCommandByName(commandName);// находит команду по имени
-            var res = cmd.Execute(messageText, botClient, cancellationToken);//выполняет комаду, достает данные и отправляет пользователю
-
-            await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id, text: res.Substring(0, 200));
+            var res = "";
+            if (cmd != null)
+            {
+                res = cmd.Execute(messageText, botClient, cancellationToken);//выполняет комаду, достает данные и отправляет пользователю
+                if (res.Length > 250)
+                    res = res.Substring(0, 250);
+            }
+            else
+                res = "Не знаю такой команды";
+            await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id, text: res);
         }
     }
 }
