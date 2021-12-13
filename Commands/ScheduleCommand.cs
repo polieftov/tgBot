@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using Telegram.Bot;
 using TelegramBot.Parsers;
+using Telegram.Bot.Types;
 
 namespace TelegramBot.Commands
 {
@@ -15,12 +16,12 @@ namespace TelegramBot.Commands
             parser = _parser;
         }
 
-        public override string Execute(string messageText, ITelegramBotClient botClient, CancellationToken cancellationToken)
+        public override string Execute(string messageText, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
         {
             var group = messageText.Split()[1];
-           
-            
-            return parser.Parse(group);     
+
+
+            return parser.Parse(group, botClient, cancellationToken, update);     
             
         }
     }

@@ -30,7 +30,7 @@ namespace TelegramBot
             var res = "";
             if (cmd != null)
             {
-                res = cmd.Execute(messageText, botClient, cancellationToken);//выполняет комаду, достает данные и отправляет пользователю
+                res = cmd.Execute(messageText, botClient, cancellationToken, update);//выполняет комаду, достает данные и отправляет пользователю
                 if (res.Length > 250)
                     res = res.Substring(0, 250);
             }
