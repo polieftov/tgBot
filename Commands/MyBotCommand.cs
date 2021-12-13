@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using Telegram.Bot;
+using Telegram.Bot.Types;
 
 namespace TelegramBot.Commands
 {
@@ -12,6 +13,6 @@ namespace TelegramBot.Commands
         public IParser parser;
         public string name;
 
-        public abstract string Execute(string messageText, ITelegramBotClient botClient, CancellationToken cancellationToken);// выполнение команды, отсюда обращаемся к Parser, который достает нужную информацию, обрабатываем ее и выводим через Writer
+        public abstract string Execute(string messageText, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update);// выполнение команды, отсюда обращаемся к Parser, который достает нужную информацию, обрабатываем ее и выводим через Writer
     }
 }
