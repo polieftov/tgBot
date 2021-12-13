@@ -51,7 +51,21 @@ namespace TelegramBot.Parsers
                 }
             }
             Console.WriteLine(stringBuilderSchedule.ToString());
-            await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id, text: stringBuilderSchedule.ToString());
+            for(var i = 0; i < stringBuilderSchedule.Length; i+= 4000)
+            {
+                if(stringBuilderSchedule.Length < 4000)
+                {
+                    await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id, text: stringBuilderSchedule.ToString());
+                }
+                else if (stringBuilderSchedule.Length < i + 4000)
+                {
+                    await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id, text: stringBuilderSchedule.ToString().Substring(i,stringBuilderSchedule.Length - 4000));
+                }
+                else
+                {
+                    await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id, text: stringBuilderSchedule.ToString().Substring(i, 4000));
+                }
+            }
         } 
     }
 }
