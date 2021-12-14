@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -20,6 +18,8 @@ namespace TelegramBot
         public async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
             Console.WriteLine(exception.Message);
+            Console.WriteLine(exception.StackTrace);
+            
         }
 
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -27,16 +27,12 @@ namespace TelegramBot
             var messageText = update.Message.Text;
             var commandName = messageText.Split()[0];//парсит текст комманды
             var cmd = executor.FindCommandByName(commandName);// находит команду по имени
-            var res = "";
+            
             if (cmd != null)
-            {
-                res = cmd.Execute(messageText, botClient, cancellationToken, update);//выполняет комаду, достает данные и отправляет пользователю
-                if (res.Length > 250)
-                    res = res.Substring(0, 250);
-            }
+                cmd.Execute(messageText, botClient, cancellationToken, update);//выполняет комаду, достает данные и отправляет пользователю
             else
-                res = "Не знаю такой команды";
-            await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id, text: res);
+                await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id, text: "Не знаю такой команды");
+            
         }
     }
 }
