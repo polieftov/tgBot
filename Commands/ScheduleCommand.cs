@@ -5,24 +5,25 @@ using System.Threading;
 using Telegram.Bot;
 using TelegramBot.Parsers;
 using Telegram.Bot.Types;
+using TelegramBot.Writers;
 
 namespace TelegramBot.Commands
 {
     class ScheduleCommand : MyBotCommand
     {
-        public ScheduleCommand(string _name, ScheduleParser _parser)
+        public ScheduleCommand(ScheduleParser _parser, LongTextWriter _writer)
         {
-            name = _name;
+            name = "расписание";
             parser = _parser;
+            writer = _writer;
         }
 
         public override string Execute(string messageText, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
         {
             var group = messageText.Split()[1];
-
-
-            return parser.Parse(group, botClient, cancellationToken, update);     
-            
+            var responseText = parser.Parse(group, botClient, cancellationToken, update);
+            writer.WriteAsync(responseText, cancellationToken, update);
+            return responseText;
         }
     }
 }
