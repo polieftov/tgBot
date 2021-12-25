@@ -7,7 +7,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot
 {
-    class CommandsExecutor
+    class CommandsExecutor : ICommandsExecutor
     {
         private readonly MyBotCommand[] commands;
         public CommandsExecutor(MyBotCommand[] commands)

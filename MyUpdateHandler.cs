@@ -9,8 +9,8 @@ namespace TelegramBot
 {
     class MyUpdateHandler : IUpdateHandler
     {
-        private CommandsExecutor executor;
-        public MyUpdateHandler(CommandsExecutor executor)
+        private ICommandsExecutor executor;
+        public MyUpdateHandler(ICommandsExecutor executor)
         {
             this.executor = executor;
         }
