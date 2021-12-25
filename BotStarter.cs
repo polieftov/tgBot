@@ -19,6 +19,23 @@ namespace TelegramBot
     class BotStarter
     {
 
+        private static ICommandsExecutor GetCommandsExecutor(ITelegramBotClient botClient)
+        {
+            var container = new StandardKernel();
+            
+            container.Bind<ICommandsExecutor>().To<CommandsExecutor>();
+            
+            container.Bind<IWriter>().To<LongTextWriter>();
+            container.Bind<ITelegramBotClient>().ToConstant(botClient);
+            container.Bind<IParser>().To<ScheduleParser>().WhenInjectedInto<ScheduleCommand>();
+            container.Bind<StartCommand>().To<StartCommand>();
+            
+            container.Bind<MyBotCommand>().To<StartCommand>();
+            container.Bind<MyBotCommand>().To<ScheduleCommand>();
+
+            return container.Get<ICommandsExecutor>();
+        }
+
         public static async Task StartAsync()
         {
             var botClient = new TelegramBotClient("2101396985:AAEkHghwAmWaKuKG2wYzjp9mVbhvFXBx-LQ");
@@ -29,10 +46,9 @@ namespace TelegramBot
             {
                 AllowedUpdates = { } // receive all update types
             };
-
-            var updateHandler = new MyUpdateHandler(new CommandsExecutor(new MyBotCommand[2] {
-                new ScheduleCommand(new ScheduleParser(), new LongTextWriter(botClient)), new StartCommand()
-            }));// создать через Bind https://ulearn.me/course/cs2/Kollektsii_9187f9a6-281f-4151-a1f9-010d2ff1b54a
+            var commandsExecutor = GetCommandsExecutor(botClient);
+            var updateHandler = new MyUpdateHandler(commandsExecutor);
+            // создать через Bind https://ulearn.me/course/cs2/Kollektsii_9187f9a6-281f-4151-a1f9-010d2ff1b54a*/
 
             botClient.StartReceiving(updateHandler);
 
