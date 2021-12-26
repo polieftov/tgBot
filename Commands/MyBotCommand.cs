@@ -7,7 +7,6 @@ namespace TelegramBot.Commands
 {
     public abstract class MyBotCommand// команды боту по типу /расписание, /баллы и тд.
     {
-        protected IParser parser;
         public string name;
         protected IWriter writer;
 

@@ -15,18 +15,6 @@ namespace TelegramBot
             this.commands = commands;
         }
 
-        public ReplyKeyboardMarkup GetReplyMarkups() //выводит кнопки с возможными командами
-        {
-            var keyBoardButtons = new List<KeyboardButton[]>();
-            var commandNames = commands.Select(command => command.name).ToArray();
-            for (var i = 0; i < commandNames.Length; i += 4)
-            {
-                var segment = new ArraySegment<string>(commandNames, i, 4).ToArray();
-                keyBoardButtons.Add(new KeyboardButton[4] { segment[0], segment[1], segment[2], segment[3] });
-            }
-            return new ReplyKeyboardMarkup(keyBoardButtons){ ResizeKeyboard = true };
-        }
-
         public MyBotCommand FindCommandByName(string name) =>
             commands.FirstOrDefault(command => string.Equals(command.name, name, StringComparison.OrdinalIgnoreCase));
 
