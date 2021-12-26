@@ -29,6 +29,7 @@ namespace TelegramBot
 
         public MyBotCommand FindCommandByName(string name) =>
             commands.FirstOrDefault(command => string.Equals(command.name, name, StringComparison.OrdinalIgnoreCase));
-        
+
+        public MyBotCommand[] getCommands() => commands;
     }
 }

@@ -17,7 +17,7 @@ namespace TelegramBot.Parsers
         public string Parse(string group, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
         {
             var groupId = GetGroupId(group);
-            if (groupId != null)
+            if (!String.IsNullOrEmpty(groupId))
             {
                 var date = DateTime.Today.ToString("yyyyMMdd");
 
@@ -34,11 +34,19 @@ namespace TelegramBot.Parsers
             var getGroupIdrequest = new GetRequest($"https://urfu.ru/api/schedule/groups/suggest/?query={group}");
             getGroupIdrequest.Run();
             var groupIdResponse = getGroupIdrequest.Response;
-            JArray suggestions = (JArray)JObject.Parse(groupIdResponse)["suggestions"];
+            if (groupIdResponse != "[]")
+            {
+                JArray suggestions = (JArray) JObject.Parse(groupIdResponse)["suggestions"];
 
-            dynamic groupId = suggestions.Descendants().OfType<JObject>().Where(x => x["data"] != null).FirstOrDefault();
-            Console.WriteLine(groupId.data);
-            return groupId.data.ToString();
+                dynamic groupId = suggestions.Descendants().OfType<JObject>().Where(x => x["data"] != null)
+                    .FirstOrDefault();
+                Console.WriteLine(groupId.data);
+
+                return groupId.data.ToString();
+            }
+            else
+                return "";
+
         }
 
         private async Task<string> ScheduleParseAsync(string adress, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
