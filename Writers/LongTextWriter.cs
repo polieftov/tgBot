@@ -23,10 +23,10 @@ namespace TelegramBot.Writers
         {
             var keyBoardButtons = new List<KeyboardButton[]>();
             var commandNames = commandsExecutor.Value.getCommands().Select(command => command.name).ToArray();
-            for (var i = 0; i < commandNames.Length; i += 4)
+            for (var i = 0; i < commandNames.Length; i += 1)
             {
                 var segment = commandNames;//new ArraySegment<string>(commandNames, i, 4).ToArray();
-                keyBoardButtons.Add(new KeyboardButton[2] { segment[0], segment[1] });
+                keyBoardButtons.Add(new KeyboardButton[1] { segment[i] });
             }
             return new ReplyKeyboardMarkup(keyBoardButtons) { ResizeKeyboard = true };
         }
@@ -40,22 +40,21 @@ namespace TelegramBot.Writers
                 {
                     await botClient.SendTextMessageAsync(
                         chatId: update.Message.Chat.Id,
-                        text: messageText
-                        /*replyMarkup: GetReplyMarkups()*/);
+                        text: messageText,
+                        replyMarkup: GetReplyMarkups());
                 }
                 else if (messageText.Length < i + 4000)
                 {
                     await botClient.SendTextMessageAsync(
                         chatId: update.Message.Chat.Id,
-                        text: messageText.Substring(i, messageText.Length - 4000)
-                        /*replyMarkup: GetReplyMarkups()*/);
+                        text: messageText.Substring(i, messageText.Length - 4000),
+                        replyMarkup: GetReplyMarkups());
                 }
                 else
                 {
                     await botClient.SendTextMessageAsync(
                         chatId: update.Message.Chat.Id,
-                        text: messageText.Substring(i, 4000)
-                        /*replyMarkup: GetReplyMarkups()*/);
+                        text: messageText.Substring(i, 4000));
                 }
             }
         }
