@@ -40,6 +40,8 @@ namespace TelegramBot.Parsers
 
                 dynamic groupId = suggestions.Descendants().OfType<JObject>().Where(x => x["data"] != null)
                     .FirstOrDefault();
+                if (groupId == null)
+                    return "";
                 Console.WriteLine(groupId.data);
 
                 return groupId.data.ToString();
