@@ -11,6 +11,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Commands;
+using TelegramBot.Infrastructure;
 using TelegramBot.Parsers;
 using TelegramBot.Writers;
 
@@ -27,10 +28,13 @@ namespace TelegramBot
             
             container.Bind<IWriter>().To<LongTextWriter>();
             container.Bind<ITelegramBotClient>().ToConstant(botClient);
-            container.Bind<IParser>().To<ScheduleParser>().WhenInjectedInto<ScheduleCommand>();
-            container.Bind<StartCommand>().To<StartCommand>();
-            
+
+            container.Bind<TomatoTimer>().To<TomatoTimer>().WhenInjectedInto<TomatoTimerCommand>();
+            container.Bind<MyBotCommand>().To<TomatoTimerCommand>();
+
             container.Bind<MyBotCommand>().To<StartCommand>();
+            
+            container.Bind<IParser>().To<ScheduleParser>().WhenInjectedInto<ScheduleCommand>();
             container.Bind<MyBotCommand>().To<ScheduleCommand>();
 
             return container.Get<ICommandsExecutor>();

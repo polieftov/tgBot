@@ -12,6 +12,7 @@ namespace TelegramBot.Commands
     class ScheduleCommand : MyBotCommand
     {
         private bool commandInc = true;
+        private IParser parser;
         public ScheduleCommand(IParser _parser, IWriter _writer)
         {
             name = "расписание";
