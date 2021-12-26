@@ -38,7 +38,7 @@ namespace TelegramBot
 
         public static async Task StartAsync()
         {
-            var botClient = new TelegramBotClient("2101396985:AAEkHghwAmWaKuKG2wYzjp9mVbhvFXBx-LQ");
+            var botClient = new TelegramBotClient("2101396985:AAH_2hzrb0BvarC98LbV1BWQauvV9z_yWMA");
             using var cts = new CancellationTokenSource();
 
             // StartReceiving does not block the caller thread. Receiving is done on the ThreadPool.

@@ -9,6 +9,7 @@ namespace TelegramBot.Writers
     public abstract class IWriter
     {
         protected ITelegramBotClient botClient;
+        protected Lazy<ICommandsExecutor> commandsExecutor;
 
         public abstract Task WriteAsync(string text, CancellationToken cancellationToken, Update update);
     }
