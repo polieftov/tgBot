@@ -17,7 +17,7 @@ using TelegramBot.Writers;
 
 namespace TelegramBot
 {
-    class BotStarter
+    static class BotStarter
     {
 
         private static ICommandsExecutor GetCommandsExecutor(ITelegramBotClient botClient)
@@ -26,7 +26,7 @@ namespace TelegramBot
             
             container.Bind<ICommandsExecutor>().To<CommandsExecutor>();
             
-            container.Bind<IWriter>().To<LongTextWriter>();
+            container.Bind<Writer>().To<LongTextWriter>();
             container.Bind<ITelegramBotClient>().ToConstant(botClient);
 
             container.Bind<TomatoTimer>().To<TomatoTimer>().WhenInjectedInto<TomatoTimerCommand>();

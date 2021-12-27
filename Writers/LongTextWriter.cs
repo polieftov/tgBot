@@ -10,19 +10,19 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot.Writers
 {
-    class LongTextWriter : IWriter
+    class LongTextWriter : Writer
     {
         
         public LongTextWriter(ITelegramBotClient _botClient, Lazy<ICommandsExecutor> executor)
         {
-            botClient = _botClient;
-            this.commandsExecutor = executor;
+            BotClient = _botClient;
+            this.CommandsExecutor = executor;
         }
 
         private ReplyKeyboardMarkup GetReplyMarkups() //выводит кнопки с возможными командами
         {
             var keyBoardButtons = new List<KeyboardButton[]>();
-            var commandNames = commandsExecutor.Value.getCommands().Select(command => command.name).ToArray();
+            var commandNames = CommandsExecutor.Value.GetCommands().Select(command => command.Name).ToArray();
             for (var i = 0; i < commandNames.Length; i += 1)
             {
                 var segment = commandNames;//new ArraySegment<string>(commandNames, i, 4).ToArray();
@@ -38,21 +38,21 @@ namespace TelegramBot.Writers
             {
                 if (messageText.Length < 4000)
                 {
-                    await botClient.SendTextMessageAsync(
+                    await BotClient.SendTextMessageAsync(
                         chatId: update.Message.Chat.Id,
                         text: messageText,
                         replyMarkup: GetReplyMarkups());
                 }
                 else if (messageText.Length < i + 4000)
                 {
-                    await botClient.SendTextMessageAsync(
+                    await BotClient.SendTextMessageAsync(
                         chatId: update.Message.Chat.Id,
                         text: messageText.Substring(i, messageText.Length - 4000),
                         replyMarkup: GetReplyMarkups());
                 }
                 else
                 {
-                    await botClient.SendTextMessageAsync(
+                    await BotClient.SendTextMessageAsync(
                         chatId: update.Message.Chat.Id,
                         text: messageText.Substring(i, 4000));
                 }

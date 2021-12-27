@@ -5,7 +5,7 @@ namespace TelegramBot
 {
     public interface ICommandsExecutor
     {
-        public MyBotCommand[] getCommands();
+        public MyBotCommand[] GetCommands();
         public MyBotCommand FindCommandByName(string name);
     }
 }

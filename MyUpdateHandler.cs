@@ -9,10 +9,10 @@ namespace TelegramBot
 {
     class MyUpdateHandler : IUpdateHandler
     {
-        private ICommandsExecutor executor;
+        private readonly ICommandsExecutor _executor;
         public MyUpdateHandler(ICommandsExecutor executor)
         {
-            this.executor = executor;
+            _executor = executor;
         }
 
         public async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
@@ -21,25 +21,25 @@ namespace TelegramBot
             Console.WriteLine(exception.StackTrace);
             
         }
-        private bool scheduleGroup = false;
+        private bool _scheduleGroup = false;
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             var messageText = update.Message.Text;
             if (messageText != null)
             {
-                if (scheduleGroup)
+                if (_scheduleGroup)
                 {
-                    var scheduleCmd = executor.FindCommandByName("расписание");
+                    var scheduleCmd = _executor.FindCommandByName("расписание");
                     scheduleCmd.Execute(messageText, botClient, cancellationToken, update);
-                    scheduleGroup = false;
+                    _scheduleGroup = false;
                     return;
                 }
 
                 
                 var commandName = messageText.Split()[0];//парсит текст комманды
                 if (commandName == "расписание")
-                    scheduleGroup = true;
-                var cmd = executor.FindCommandByName(commandName);// находит команду по имени
+                    _scheduleGroup = true;
+                var cmd = _executor.FindCommandByName(commandName);// находит команду по имени
                 if (cmd != null)
                     cmd.Execute(messageText, botClient, cancellationToken, update);//выполняет комаду, достает данные и отправляет пользователю
                 else

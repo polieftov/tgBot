@@ -11,12 +11,10 @@ namespace TelegramBot
 {
     class Program
     {
-        private static string token { get => "2101396985:AAEkHghwAmWaKuKG2wYzjp9mVbhvFXBx-LQ"; }
+        private static string Token { get => "2101396985:AAEkHghwAmWaKuKG2wYzjp9mVbhvFXBx-LQ"; }
         static async Task Main(string[] args)
         {
             await BotStarter.StartAsync();//запуск бота
         }
-
     }
-
 }
