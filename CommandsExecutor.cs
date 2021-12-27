@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TelegramBot.Commands;
 using System.Linq;
-using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBot.Commands;
 
 namespace TelegramBot
 {
     class CommandsExecutor : ICommandsExecutor
     {
-        private readonly MyBotCommand[] commands;
+        private readonly MyBotCommand[] _commands;
         public CommandsExecutor(MyBotCommand[] commands)
         {
-            this.commands = commands;
+            this._commands = commands;
         }
 
         public MyBotCommand FindCommandByName(string name) =>
-            commands.FirstOrDefault(command => string.Equals(command.name, name, StringComparison.OrdinalIgnoreCase));
+            _commands.FirstOrDefault(command => string.Equals(command.Name, name, StringComparison.OrdinalIgnoreCase));
 
-        public MyBotCommand[] getCommands() => commands;
+        public MyBotCommand[] GetCommands() => _commands;
     }
 }

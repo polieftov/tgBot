@@ -11,11 +11,11 @@ namespace TelegramBot.Commands
     public class TomatoTimerCommand : MyBotCommand
     {
 
-        private TomatoTimer _tomatoTimer;
-        public TomatoTimerCommand(IWriter _writer, TomatoTimer tomatoTimer)
+        private readonly TomatoTimer _tomatoTimer;
+        public TomatoTimerCommand(Writer writer, TomatoTimer tomatoTimer)
         {
-            name = "Tomato";
-            writer = _writer;
+            Name = "Tomato";
+            Writer = writer;
             _tomatoTimer = tomatoTimer;
         }
         
@@ -26,18 +26,18 @@ namespace TelegramBot.Commands
                 {
                     case "Start":
                         StartTimer(cancellationToken, update);
-                        writer.WriteAsync("Время работать!, 25 минут", cancellationToken, update);
+                        Writer.WriteAsync("Время работать!, 25 минут", cancellationToken, update);
                         break;
                     case "Stop":
                         StopTimer(cancellationToken, update);
                         break;
                     default:
-                        writer.WriteAsync("Неизвестная команда таймера", cancellationToken, update);
+                        Writer.WriteAsync("Неизвестная команда таймера", cancellationToken, update);
                         break;
                 }
             else
             {
-                writer.WriteAsync("Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера", cancellationToken, update);
+                Writer.WriteAsync("Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера", cancellationToken, update);
             }
 
             return "1";
@@ -49,22 +49,22 @@ namespace TelegramBot.Commands
             var ct = tup.Item1;
             var botCancellationToken = tup.Item2;
             var update = tup.Item3;
-            var state = _tomatoTimer.state;
+            var state = _tomatoTimer.TomatoTimerState;
             while (!ct.IsCancellationRequested)
             {
-                if (_tomatoTimer.state != state)
+                if (_tomatoTimer.TomatoTimerState != state)
                 {
-                    state = _tomatoTimer.state;
+                    state = _tomatoTimer.TomatoTimerState;
                     switch (state)
                     {
                         case TomatoTimerStateEnum.Work:
-                            writer.WriteAsync("Время работать!, 25 минут", botCancellationToken, update);
+                            Writer.WriteAsync("Время работать!, 25 минут", botCancellationToken, update);
                             break;
                         case TomatoTimerStateEnum.LongChill:
-                            writer.WriteAsync("Большой перерыв, 10 минут", botCancellationToken, update);
+                            Writer.WriteAsync("Большой перерыв, 10 минут", botCancellationToken, update);
                             break;
                         case TomatoTimerStateEnum.ShortChill:
-                            writer.WriteAsync("Маленький перерыв, 5 минут", botCancellationToken, update);
+                            Writer.WriteAsync("Маленький перерыв, 5 минут", botCancellationToken, update);
                             break;
                         default:
                             break;
@@ -75,20 +75,17 @@ namespace TelegramBot.Commands
             
         private void StartTimer(CancellationToken botCancellationToken, Update update)
         {
-            var tomatoTimerState = _tomatoTimer.state;
+            var tomatoTimerState = _tomatoTimer.TomatoTimerState;
             _tomatoTimer.StartTimer();
-            var ct = _tomatoTimer.getCancellationTokenSource();
+            var ct = _tomatoTimer.GetCancellationTokenSource();
             var timerStateListenerThread = new Thread(new ParameterizedThreadStart(StartTimerStateListener));
             timerStateListenerThread.Start((ct.Token, botCancellationToken, update));
-            
-            // StartTimerStateListener(new ValueTuple<CancellationTokenSource, CancellationToken, Update>(ct, botCancellationToken, update));
-
         }
 
         private void StopTimer(CancellationToken cancellationToken, Update update)
         {
             _tomatoTimer.StopTimer();
-            writer.WriteAsync("Таймер остановлен", cancellationToken, update);
+            Writer.WriteAsync("Таймер остановлен", cancellationToken, update);
         }
     }
 }

@@ -6,14 +6,14 @@ namespace TelegramBot.Infrastructure
 {
     public class TomatoTimer
     {
-        CancellationTokenSource cts = new CancellationTokenSource();
+        CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
-        public CancellationTokenSource getCancellationTokenSource() => cts;
-        public TomatoTimerStateEnum state { get; private set; }
+        public CancellationTokenSource GetCancellationTokenSource() => _cancellationTokenSource;
+        public TomatoTimerStateEnum TomatoTimerState { get; private set; }
 
         public void StartTimer()
         {
-            new Thread(TomatoLoop).Start(cts.Token);
+            new Thread(TomatoLoop).Start(_cancellationTokenSource.Token);
         }
 
         private async void TomatoLoop(object p)
@@ -23,26 +23,26 @@ namespace TelegramBot.Infrastructure
             {
                 while (!ct.IsCancellationRequested)
                 {
-                    state = TomatoTimerStateEnum.Work;
+                    TomatoTimerState = TomatoTimerStateEnum.Work;
                     await Task.Delay(25 * 60 * 1000, ct);
-                    state = TomatoTimerStateEnum.ShortChill;
+                    TomatoTimerState = TomatoTimerStateEnum.ShortChill;
                     await Task.Delay(5 * 60 * 1000, ct);
-                    state = TomatoTimerStateEnum.Work;
+                    TomatoTimerState = TomatoTimerStateEnum.Work;
                     await Task.Delay(10 * 60 * 1000, ct);
-                    state = TomatoTimerStateEnum.LongChill;
+                    TomatoTimerState = TomatoTimerStateEnum.LongChill;
                     await Task.Delay(1000, ct);
                 }
             }
             catch (TaskCanceledException)
             {
-                Console.WriteLine("ПОток томата закрыт");
+                Console.WriteLine("Поток томата закрыт");
             }
         }
 
         public void StopTimer()
         {
-            cts.Cancel();
-            cts = new CancellationTokenSource();
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
         }
     }
 }

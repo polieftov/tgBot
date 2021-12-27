@@ -2,12 +2,12 @@
 using System;
 using System.Linq;
 using System.Text;
-using TelegramBot.Requests;
 using Telegram.Bot;
 using System.Threading;
 using Telegram.Bot.Types;
 using System.Threading.Tasks;
 using AngleSharp;
+using TelegramBot.Infrastructure.Requests;
 
 
 namespace TelegramBot.Parsers
@@ -58,20 +58,20 @@ namespace TelegramBot.Parsers
             var source = adress;
             var doc = await BrowsingContext.New(config).OpenAsync(source);
             var allTr = doc.QuerySelectorAll("tr");
-            for (var i = 0; i < allTr.Length; i++)
+            foreach (var tr in allTr)
             {
-                if (allTr[i].ClassName == "divide")
+                if (tr.ClassName == "divide")
                 {
-                    if (allTr[i].TextContent.Trim() != " ")
+                    if (tr.TextContent.Trim() != " ")
                     {
-                        stringBuilderSchedule.AppendLine(allTr[i].TextContent.Trim());
+                        stringBuilderSchedule.AppendLine(tr.TextContent.Trim());
                     }
                 }
-                else if (allTr[i].ClassName == "shedule-weekday-row")
+                else if (tr.ClassName == "shedule-weekday-row")
                 {
-                    var textContDay = allTr[i].QuerySelector("span.shedule-weekday-name");
-                    var textContTime = allTr[i].QuerySelector("td.shedule-weekday-time");
-                    var textContItem = allTr[i].QuerySelector("dl.shedule-weekday-item");
+                    var textContDay = tr.QuerySelector("span.shedule-weekday-name");
+                    var textContTime = tr.QuerySelector("td.shedule-weekday-time");
+                    var textContItem = tr.QuerySelector("dl.shedule-weekday-item");
                     var textContItemParse = textContItem.TextContent.Trim();
                     textContItemParse = textContItemParse.Replace(".", "");
                     textContItemParse = textContItemParse.Replace("\n", "");
@@ -81,9 +81,9 @@ namespace TelegramBot.Parsers
                     stringBuilderSchedule.AppendLine(textContTime.TextContent);
                     stringBuilderSchedule.AppendLine(textContItemParse);
                 }
-                else if (allTr[i].ClassName == "shedule-weekday-row shedule-weekday-first-row")
+                else if (tr.ClassName == "shedule-weekday-row shedule-weekday-first-row")
                 {
-                    stringBuilderSchedule.AppendLine(allTr[i].TextContent.Trim());
+                    stringBuilderSchedule.AppendLine(tr.TextContent.Trim());
                 }
             }
 

@@ -8,7 +8,7 @@ namespace TelegramBot.Commands
     {
         public StartCommand()
         {
-            name = "/start";
+            Name = "/start";
         }
 
         public override string Execute(string messageText, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)

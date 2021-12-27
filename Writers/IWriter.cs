@@ -6,10 +6,10 @@ using Telegram.Bot.Types;
 
 namespace TelegramBot.Writers
 {
-    public abstract class IWriter
+    public abstract class Writer
     {
-        protected ITelegramBotClient botClient;
-        protected Lazy<ICommandsExecutor> commandsExecutor;
+        protected ITelegramBotClient BotClient;
+        protected Lazy<ICommandsExecutor> CommandsExecutor;
 
         public abstract Task WriteAsync(string text, CancellationToken cancellationToken, Update update);
     }

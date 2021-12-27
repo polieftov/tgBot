@@ -11,22 +11,22 @@ namespace TelegramBot.Commands
 {
     class ScheduleCommand : MyBotCommand
     {
-        private bool commandInc = true;
-        private IParser parser;
-        public ScheduleCommand(IParser _parser, IWriter _writer)
+        private bool _commandInc = true;
+        private readonly IParser _parser;
+        public ScheduleCommand(IParser parser, Writer writer)
         {
-            name = "расписание";
-            parser = _parser;
-            writer = _writer;
+            Name = "расписание";
+            _parser = parser;
+            Writer = writer;
         }
 
         public override string Execute(string messageText, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
         {
             var group = "";
-            if (commandInc)
+            if (_commandInc)
             {
-                writer.WriteAsync("Введите номер группы", cancellationToken, update);
-                commandInc = false;
+                Writer.WriteAsync("Введите номер группы", cancellationToken, update);
+                _commandInc = false;
                 return "";
             }
 
@@ -34,9 +34,9 @@ namespace TelegramBot.Commands
             
             if (group == null)
                 return "";
-            commandInc = true;
-            var responseText = parser.Parse(group, botClient, cancellationToken, update);
-            writer.WriteAsync(responseText, cancellationToken, update);
+            _commandInc = true;
+            var responseText = _parser.Parse(group, botClient, cancellationToken, update);
+            Writer.WriteAsync(responseText, cancellationToken, update);
             return responseText;
         }
     }
