@@ -4,7 +4,7 @@ using TelegramBot.Commands;
 
 namespace TelegramBot
 {
-    class CommandsExecutor : ICommandsExecutor
+    public class CommandsExecutor : ICommandsExecutor
     {
         private readonly MyBotCommand[] _commands;
         public CommandsExecutor(MyBotCommand[] commands)

@@ -19,8 +19,16 @@ namespace TelegramBot
         {
             Console.WriteLine(exception.Message);
             Console.WriteLine(exception.StackTrace);
+            AppDomain.CurrentDomain.UnhandledException += ProcessException;
             
         }
+        
+        static void ProcessException(object sender, UnhandledExceptionEventArgs args)
+        {
+            Console.WriteLine((args.ExceptionObject as Exception).StackTrace);
+            Environment.Exit(1);
+        }
+        
         private bool _scheduleGroup = false;
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {

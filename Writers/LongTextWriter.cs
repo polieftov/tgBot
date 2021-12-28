@@ -10,7 +10,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot.Writers
 {
-    class LongTextWriter : Writer
+    public class LongTextWriter : Writer
     {
         
         public LongTextWriter(ITelegramBotClient _botClient, Lazy<ICommandsExecutor> executor)
