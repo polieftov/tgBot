@@ -12,7 +12,7 @@ using TelegramBot.Infrastructure.Requests;
 
 namespace TelegramBot.Parsers
 {
-    class ScheduleParser : IParser
+    public class ScheduleParser : IParser
     {
         public string Parse(string group, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
         {

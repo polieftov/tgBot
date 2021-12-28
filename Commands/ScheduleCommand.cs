@@ -9,7 +9,7 @@ using TelegramBot.Writers;
 
 namespace TelegramBot.Commands
 {
-    class ScheduleCommand : MyBotCommand
+    public class ScheduleCommand : MyBotCommand
     {
         private bool _commandInc = true;
         private readonly IParser _parser;
@@ -22,18 +22,21 @@ namespace TelegramBot.Commands
 
         public override string Execute(string messageText, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
         {
-            var group = "";
             if (_commandInc)
             {
                 Writer.WriteAsync("Введите номер группы", cancellationToken, update);
                 _commandInc = false;
-                return "";
+                return "Введите номер группы";
             }
 
-            group = messageText;
-            
-            if (group == null)
-                return "";
+            var group = messageText;
+
+            if (String.IsNullOrWhiteSpace(group))
+            {
+                Writer.WriteAsync("Группа не введена", cancellationToken, update);
+                return "Группа не введена";
+            }
+
             _commandInc = true;
             var responseText = _parser.Parse(group, botClient, cancellationToken, update);
             Writer.WriteAsync(responseText, cancellationToken, update);

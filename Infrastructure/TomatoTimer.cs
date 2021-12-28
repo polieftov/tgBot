@@ -6,6 +6,21 @@ namespace TelegramBot.Infrastructure
 {
     public class TomatoTimer
     {
+        private double _workTimeInMinutes = 25;
+        private double _shortChillTimeInMinutes = 5;
+        private double _longChillTimeInMinutes = 10;
+
+        public TomatoTimer()
+        {
+        }
+
+        public TomatoTimer(double workTimeInMinutes, double shortChillTimeInMinutes, double longChillTimeInMinutes)
+        {
+            _workTimeInMinutes = workTimeInMinutes;
+            _shortChillTimeInMinutes = shortChillTimeInMinutes;
+            _longChillTimeInMinutes = longChillTimeInMinutes;
+        }
+
         CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         public CancellationTokenSource GetCancellationTokenSource() => _cancellationTokenSource;
@@ -24,13 +39,13 @@ namespace TelegramBot.Infrastructure
                 while (!ct.IsCancellationRequested)
                 {
                     TomatoTimerState = TomatoTimerStateEnum.Work;
-                    await Task.Delay(25 * 60 * 1000, ct);
+                    await Task.Delay((int)(_workTimeInMinutes * 60) * 1000, ct);
                     TomatoTimerState = TomatoTimerStateEnum.ShortChill;
-                    await Task.Delay(5 * 60 * 1000, ct);
+                    await Task.Delay((int)(_shortChillTimeInMinutes * 60) * 1000, ct);
                     TomatoTimerState = TomatoTimerStateEnum.Work;
-                    await Task.Delay(10 * 60 * 1000, ct);
+                    await Task.Delay((int)(_workTimeInMinutes * 60) * 1000, ct);
                     TomatoTimerState = TomatoTimerStateEnum.LongChill;
-                    await Task.Delay(1000, ct);
+                    await Task.Delay((int)(_longChillTimeInMinutes * 60) * 1000, ct);
                 }
             }
             catch (TaskCanceledException)
