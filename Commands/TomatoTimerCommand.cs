@@ -21,26 +21,24 @@ namespace TelegramBot.Commands
         
         public override string Execute(string messageText, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
         {
-            if (messageText.Split().Length > 1)
+            if (messageText != null && messageText.Split().Length > 1)
                 switch (messageText.Split()[1])
                 {
                     case "Start":
                         StartTimer(cancellationToken, update);
                         Writer.WriteAsync("Время работать!, 25 минут", cancellationToken, update);
-                        break;
+                        return "Время работать!, 25 минут";
                     case "Stop":
-                        StopTimer(cancellationToken, update);
-                        break;
+                        return StopTimer(cancellationToken, update);
                     default:
                         Writer.WriteAsync("Неизвестная команда таймера", cancellationToken, update);
-                        break;
+                        return "Неизвестная команда таймера";
                 }
             else
             {
                 Writer.WriteAsync("Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера", cancellationToken, update);
+                return "Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера";
             }
-
-            return "1";
         }
 
         private void StartTimerStateListener(Object p)
@@ -82,10 +80,11 @@ namespace TelegramBot.Commands
             timerStateListenerThread.Start((ct.Token, botCancellationToken, update));
         }
 
-        private void StopTimer(CancellationToken cancellationToken, Update update)
+        private string StopTimer(CancellationToken cancellationToken, Update update)
         {
             _tomatoTimer.StopTimer();
             Writer.WriteAsync("Таймер остановлен", cancellationToken, update);
+            return "Таймер остановлен";
         }
     }
 }
