@@ -97,51 +97,56 @@ namespace TelegramBot.Tests
     [TestFixture]
     public class TomatoTest
     {
-        public TomatoTimer tomato = new TomatoTimer(0.01, 0.01, 0.01);
         public TomatoTimerStateEnum TomatoTimerState { get; private set; }
 
         [Test]
         public void StateFirstWorkTest()
         {
+            TomatoTimer tomato = new TomatoTimer(0.01, 0.01, 0.01);
             tomato.StartTimer();
             TomatoTimerState = TomatoTimerStateEnum.Work;
-            Assert.AreEqual(tomato.TomatoTimerState, TomatoTimerState);
+            Assert.AreEqual(TomatoTimerState, tomato.TomatoTimerState);
         }
 
         [Test]
         public void StateShortChillTest()
         {
-            tomato.StartTimer();
+            TomatoTimer tomato = new TomatoTimer(0.01, 0.01, 0.01);
             TomatoTimerState = TomatoTimerStateEnum.ShortChill;
+            tomato.StartTimer();
             Thread.Sleep(700);
-            Assert.AreEqual(tomato.TomatoTimerState, TomatoTimerState);
+            tomato.StartTimer();
+            Assert.AreEqual(TomatoTimerState, tomato.TomatoTimerState);
         }
 
         [Test]
         public void StateSecondWorkTest()
         {
+            TomatoTimer tomato = new TomatoTimer(0.01, 0.01, 0.01);
             tomato.StartTimer();
             TomatoTimerState = TomatoTimerStateEnum.Work;
             Thread.Sleep(1300);
-            Assert.AreEqual(tomato.TomatoTimerState, TomatoTimerState);
+            Assert.AreEqual(TomatoTimerState, tomato.TomatoTimerState);
         }
 
         [Test]
         public void StateLongChillTest()
         {
+            TomatoTimer tomato = new TomatoTimer(0.01, 0.01, 0.01);
             tomato.StartTimer();
             TomatoTimerState = TomatoTimerStateEnum.LongChill;
-            Thread.Sleep(1800);
-            Assert.AreEqual(tomato.TomatoTimerState, TomatoTimerState);
+            Thread.Sleep(1900);
+            Assert.AreEqual(TomatoTimerState, tomato.TomatoTimerState);
         }
 
         [Test]
         public void StateWorkAfterLongChillTest()
         {
+            TomatoTimer tomato = new TomatoTimer(0.01, 0.01, 0.01);
             tomato.StartTimer();
             TomatoTimerState = TomatoTimerStateEnum.Work;
-            Thread.Sleep(2400);
-            Assert.AreEqual(tomato.TomatoTimerState, TomatoTimerState);
+            Thread.Sleep(2500);
+            Assert.AreEqual(TomatoTimerState, tomato.TomatoTimerState);
         }
     }
 }

@@ -39,13 +39,13 @@ namespace TelegramBot.Infrastructure
                 while (!ct.IsCancellationRequested)
                 {
                     TomatoTimerState = TomatoTimerStateEnum.Work;
-                    await Task.Delay((int)(_workTimeInMinutes * 60) * 1000, ct);
+                    await Task.Delay((int)(_workTimeInMinutes * 60 * 1000), ct);
                     TomatoTimerState = TomatoTimerStateEnum.ShortChill;
-                    await Task.Delay((int)(_shortChillTimeInMinutes * 60) * 1000, ct);
+                    await Task.Delay((int)(_shortChillTimeInMinutes * 60 * 1000), ct);
                     TomatoTimerState = TomatoTimerStateEnum.Work;
-                    await Task.Delay((int)(_workTimeInMinutes * 60) * 1000, ct);
+                    await Task.Delay((int)(_workTimeInMinutes * 60 * 1000), ct);
                     TomatoTimerState = TomatoTimerStateEnum.LongChill;
-                    await Task.Delay((int)(_longChillTimeInMinutes * 60) * 1000, ct);
+                    await Task.Delay((int)(_longChillTimeInMinutes * 60 * 1000), ct);
                 }
             }
             catch (TaskCanceledException)
