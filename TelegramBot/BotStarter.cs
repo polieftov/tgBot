@@ -34,7 +34,9 @@ namespace TelegramBot
             container.Bind<MyBotCommand>().To<SendJokesCommand>();
 
             container.Bind<Writer>().To<WriterWithLinks>().WhenInjectedInto<DocumentLinksCommand>();
+            container.Bind<Writer>().To<WriterWithLinks>().WhenInjectedInto<UsefullLinksCommand>();
             container.Bind<MyBotCommand>().To<DocumentLinksCommand>();
+            container.Bind<MyBotCommand>().To<UsefullLinksCommand>();
             return container.Get<ICommandsExecutor>();
         }
 

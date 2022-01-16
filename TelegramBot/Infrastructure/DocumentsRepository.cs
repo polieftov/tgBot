@@ -7,8 +7,6 @@ namespace TelegramBot.Infrastructure
     {
         public static readonly Dictionary<string, string> DocumentsWithUrl = new Dictionary<string, string>()
         {
-            { "Главная страница", "https://urfu.ru/ru/" },
-            { "Личный кабинет студента", "https://istudent.urfu.ru/" },
             { "Все документы", "https://urfu.ru/ru/students/documents/"},
             { "Об обязательной вакцинации", "https://urfu.ru/fileadmin/user_upload/common_files/employee/docs/Prikaz_po_osnovnoi___dejatelnosti_No_0657_03_ot_25.08.2021__O_nachale_2021_2....pdf" },
             { "О начале 2021/2022 учебного года", "https://urfu.ru/fileadmin/user_upload/common_files/employee/docs/Prikaz_po_osnovnoi___dejatelnosti_No_0657_03_ot_25.08.2021__O_nachale_2021_2....pdf" },
@@ -20,6 +18,5 @@ namespace TelegramBot.Infrastructure
             { "О ликвидации академических задолженностей", "https://urfu.ru/fileadmin/user_upload/urfu.ru/documents/brs/20200114_Polozhenie_o_likvidacii_akadem_zadolzhennostei_v2.pdf" },
             { "О порядке предоставления каникул", "https://urfu.ru/fileadmin/user_upload/urfu.ru/documents/education/2019/Prikaz_po_osnovnoi_dejatelnosti_No_0665_03_ot_01.08.2019__O_vvedenii_v_deistvie_Reglamenta___1785543_v2_.pdf" }
         };
-
     }
 }
