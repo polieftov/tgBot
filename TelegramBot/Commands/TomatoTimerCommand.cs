@@ -26,8 +26,8 @@ namespace TelegramBot.Commands
                 {
                     case "Start":
                         StartTimer(cancellationToken, update);
-                        Writer.WriteAsync("Время работать!, 25 минут", cancellationToken, update);
-                        return "Время работать!, 25 минут";
+                        Writer.WriteAsync("Время работать! 25 минут", cancellationToken, update);
+                        return "Время работать! 25 минут";
                     case "Stop":
                         return StopTimer(cancellationToken, update);
                     default:
@@ -56,7 +56,7 @@ namespace TelegramBot.Commands
                     switch (state)
                     {
                         case TomatoTimerStateEnum.Work:
-                            Writer.WriteAsync("Время работать!, 25 минут", botCancellationToken, update);
+                            Writer.WriteAsync("Время работать! 25 минут", botCancellationToken, update);
                             break;
                         case TomatoTimerStateEnum.LongChill:
                             Writer.WriteAsync("Большой перерыв, 10 минут", botCancellationToken, update);

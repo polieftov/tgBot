@@ -37,6 +37,8 @@ namespace TelegramBot
             container.Bind<IParser>().To<ScheduleParser>().WhenInjectedInto<ScheduleCommand>();
             container.Bind<MyBotCommand>().To<ScheduleCommand>();
 
+            container.Bind<MyBotCommand>().To<SendJokesCommand>();
+
             return container.Get<ICommandsExecutor>();
         }
 
