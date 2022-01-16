@@ -25,18 +25,20 @@ namespace TelegramBot.Writers
         /// <param name="settings"></param> ключ - текст кнопки с ссылкой, значение - ссылка
         public override async Task WriteAsync(string text, CancellationToken cancellationToken, Update update, Dictionary<string, object>? settings = null)
         {
+            List<InlineKeyboardButton[]> inlineKeyboardButtonsList = new List<InlineKeyboardButton[]>();
             if (settings != null)
             {
+                
                 foreach (var setting in settings)
                 {
-                    _links.Add(InlineKeyboardButton.WithUrl(setting.Key, setting.Value.ToString()));
+                    inlineKeyboardButtonsList.Add(new InlineKeyboardButton[] { InlineKeyboardButton.WithUrl(setting.Key, setting.Value.ToString()) });
                 }
             }
             
             await BotClient.SendTextMessageAsync(
                 chatId: update.Message.Chat.Id,
                 text: text,
-                replyMarkup: new InlineKeyboardMarkup(_links.ToArray())
+                replyMarkup: new InlineKeyboardMarkup(inlineKeyboardButtonsList.ToArray())
                 );
         }
     }
