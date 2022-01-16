@@ -17,12 +17,12 @@ namespace TelegramBot
             if (splittedText.Length < 0)
                 return null;
             var commandName = splittedText[0];
-            var cmd = _commands.FirstOrDefault(command => string.Equals(command.Name, commandName, StringComparison.OrdinalIgnoreCase));
+            var cmd = _commands.FirstOrDefault(command => string.Equals(command.Name, commandName, StringComparison.InvariantCultureIgnoreCase));
 
             for (int i = 1; i < splittedText.Length && cmd == null; i++)
             {
                 commandName += " " + splittedText[i];
-                cmd = _commands.FirstOrDefault(command => string.Equals(command.Name, commandName, StringComparison.OrdinalIgnoreCase));
+                cmd = _commands.FirstOrDefault(command => string.Equals(command.Name, commandName, StringComparison.InvariantCultureIgnoreCase));
             }
 
             return cmd;
