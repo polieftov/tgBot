@@ -92,6 +92,14 @@ namespace TelegramBot.Tests
             var caseCommands = tomatoCommands.Execute("", null, new CancellationToken(), null);
             Assert.AreEqual("Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера", caseCommands);
         }
+
+        [Test]
+        public void TomatoAlreadyStartTest()
+        {
+            var caseCommands = tomatoCommands.Execute("Tomato Start", null, new CancellationToken(), null);
+            var caseCommandsAgain = tomatoCommands.Execute("Tomato Start", null, new CancellationToken(), null);
+            Assert.AreEqual("Таймер уже запущен", caseCommandsAgain);
+        }
     }
 
     [TestFixture]
