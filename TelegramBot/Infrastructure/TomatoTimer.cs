@@ -6,13 +6,11 @@ namespace TelegramBot.Infrastructure
 {
     public class TomatoTimer
     {
-        private double _workTimeInMinutes = 0.5;
-        private double _shortChillTimeInMinutes = 0.5;
-        private double _longChillTimeInMinutes = 0.5;
+        private double _workTimeInMinutes = 25;
+        private double _shortChillTimeInMinutes = 5;
+        private double _longChillTimeInMinutes = 10;
 
-        public TomatoTimer()
-        {
-        }
+        public TomatoTimer() { }
 
         public TomatoTimer(double workTimeInMinutes, double shortChillTimeInMinutes, double longChillTimeInMinutes)
         {
@@ -31,9 +29,9 @@ namespace TelegramBot.Infrastructure
             new Thread(TomatoLoop).Start(_cancellationTokenSource.Token);
         }
 
-        private async void TomatoLoop(object p)
+        private async void TomatoLoop(object cancellationToken)
         {
-            var ct = (CancellationToken) p;
+            var ct = (CancellationToken) cancellationToken;
             try
             {
                 while (!ct.IsCancellationRequested)

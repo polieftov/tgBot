@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -10,9 +7,9 @@ using TelegramBot.Writers;
 
 namespace TelegramBot.Commands
 {
-    public class UsefullLinksCommand : MyBotCommand
+    public class UsefulLinksCommand : MyBotCommand
     {
-        public UsefullLinksCommand(Writer writer)
+        public UsefulLinksCommand(Writer writer)
         {
             Writer = writer;
             Name = "Полезные ссылки";
@@ -20,7 +17,7 @@ namespace TelegramBot.Commands
 
         public override string Execute(string messageText, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
         {
-            var props = UsefullLinksRepository.UsefullLinks.ToDictionary(keyValue => keyValue.Key, keyValue => (object)keyValue.Value);
+            var props = UsefulLinksRepository.UsefulLinks.ToDictionary(keyValue => keyValue.Key, keyValue => (object)keyValue.Value);
             Writer.WriteAsync("Полезные ссылки:", cancellationToken, update, props);
             return "Полезные ссылки";
         }

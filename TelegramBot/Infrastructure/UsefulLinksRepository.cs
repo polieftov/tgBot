@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace TelegramBot.Infrastructure
 {
-    public static class UsefullLinksRepository
+    public static class UsefulLinksRepository
     {
-        public static readonly Dictionary<string, string> UsefullLinks = new Dictionary<string, string>()
+        public static readonly Dictionary<string, string> UsefulLinks = new Dictionary<string, string>()
         {
             { "Главная страница", "https://urfu.ru/ru/" },
             { "Личный кабинет студента", "https://istudent.urfu.ru/" },

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using TelegramBot.Infrastructure;
@@ -11,7 +10,7 @@ namespace TelegramBot.Commands
 {
     public class TomatoTimerCommand : MyBotCommand
     {
-        private bool isRunning;
+        private bool _isRunning;
         private readonly TomatoTimer _tomatoTimer;
         public TomatoTimerCommand(Writer writer, TomatoTimer tomatoTimer)
         {
@@ -26,14 +25,14 @@ namespace TelegramBot.Commands
                 switch (messageText.Split()[1])
                 {
                     case "Start":
-                        if (isRunning)
+                        if (_isRunning)
                             return "Таймер уже запущен";
-                        isRunning = true;
+                        _isRunning = true;
                         StartTimer(cancellationToken, update);
                         Writer.WriteAsync("Время работать! 25 минут", cancellationToken, update);
                         return "Время работать! 25 минут";
                     case "Stop":
-                        isRunning = false;
+                        _isRunning = false;
                         return StopTimer(cancellationToken, update);
                     default:
                         Writer.WriteAsync("Неизвестная команда таймера", cancellationToken, update);
@@ -79,7 +78,6 @@ namespace TelegramBot.Commands
 
         private void StartTimer(CancellationToken botCancellationToken, Update update)
         {
-            var tomatoTimerState = _tomatoTimer.TomatoTimerState;
             _tomatoTimer.StartTimer();
             var ct = _tomatoTimer.GetCancellationTokenSource();
             var timerStateListenerThread = new Thread(new ParameterizedThreadStart(StartTimerStateListener));
