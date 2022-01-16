@@ -13,6 +13,7 @@ namespace TelegramBot.Commands
 
         public override string Execute(string messageText, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
         {
+            Writer.WriteAsync("Я вас категорически приветствую!", cancellationToken, update);
             return "Я вас категорически приветствую!";
         }
     }

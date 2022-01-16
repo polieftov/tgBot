@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
+using TelegramBot.Writers;
 
 namespace TelegramBot
 {
@@ -35,23 +37,37 @@ namespace TelegramBot
             var messageText = update.Message.Text;
             if (messageText != null)
             {
-                if (_scheduleGroup)
+                if (messageText == "kek")
                 {
-                    var scheduleCmd = _executor.FindCommandByName("расписание");
-                    scheduleCmd.Execute(messageText, botClient, cancellationToken, update);
-                    _scheduleGroup = false;
-                    return;
-                }
+                    var d = new Dictionary<String, object>() { {"kok", (object)"https://metanit.com/sharp/tutorial/4.9.php"} };
+                    new WriterWithLinks(botClient).WriteAsync("loool", cancellationToken, update, d);
 
-                
-                var commandName = messageText.Split()[0];//парсит текст комманды
-                if (commandName == "расписание")
-                    _scheduleGroup = true;
-                var cmd = _executor.FindCommandByName(commandName);// находит команду по имени
-                if (cmd != null)
-                    cmd.Execute(messageText, botClient, cancellationToken, update);//выполняет комаду, достает данные и отправляет пользователю
+                }
                 else
-                    await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id, text: "Не знаю такой команды");
+                {
+
+
+
+                    if (_scheduleGroup)
+                    {
+                        var scheduleCmd = _executor.FindCommandByName("расписание");
+                        scheduleCmd.Execute(messageText, botClient, cancellationToken, update);
+                        _scheduleGroup = false;
+                        return;
+                    }
+
+
+                    var commandName = messageText.Split()[0]; //парсит текст комманды
+                    if (commandName == "расписание")
+                        _scheduleGroup = true;
+                    var cmd = _executor.FindCommandByName(commandName); // находит команду по имени
+                    if (cmd != null)
+                        cmd.Execute(messageText, botClient, cancellationToken,
+                            update); //выполняет комаду, достает данные и отправляет пользователю
+                    else
+                        await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id,
+                            text: "Не знаю такой команды");
+                }
             }
         }
     }
