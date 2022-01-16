@@ -1,13 +1,15 @@
 ﻿using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using TelegramBot.Writers;
 
 namespace TelegramBot.Commands
 {
     public class StartCommand : MyBotCommand
     {
-        public StartCommand()
+        public StartCommand(Writer writer)
         {
+            Writer = writer;
             Name = "/start";
         }
 

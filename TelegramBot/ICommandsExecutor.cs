@@ -6,6 +6,6 @@ namespace TelegramBot
     public interface ICommandsExecutor
     {
         public MyBotCommand[] GetCommands();
-        public MyBotCommand FindCommandByName(string name);
+        public MyBotCommand FindCommandByName(string[] splittedText);
     }
 }

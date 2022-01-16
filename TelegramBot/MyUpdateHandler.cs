@@ -37,28 +37,32 @@ namespace TelegramBot
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update,
             CancellationToken cancellationToken)
         {
-            var messageText = update.Message.Text;
-            if (messageText != null)
+            if (update.Message != null)
             {
-                if (_scheduleGroup)
+
+
+                var messageText = update.Message.Text;
+                if (messageText != null)
                 {
-                    var scheduleCmd = _executor.FindCommandByName("расписание");
-                    scheduleCmd.Execute(messageText, botClient, cancellationToken, update);
-                    _scheduleGroup = false;
-                    return;
+                    if (_scheduleGroup)
+                    {
+                        var scheduleCmd = _executor.FindCommandByName(new string[] {"расписание"});
+                        scheduleCmd.Execute(messageText, botClient, cancellationToken, update);
+                        _scheduleGroup = false;
+                        return;
+                    }
+
+                    var splittedText = messageText.Split();
+                    if (splittedText[0] == "расписание")
+                        _scheduleGroup = true;
+                    var cmd = _executor.FindCommandByName(splittedText); // находит команду по имени
+                    if (cmd != null)
+                        cmd.Execute(messageText, botClient, cancellationToken,
+                            update); //выполняет комаду, достает данные и отправляет пользователю
+                    else
+                        await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id,
+                            text: "Не знаю такой команды");
                 }
-
-
-                var commandName = messageText.Split()[0]; //парсит текст комманды
-                if (commandName == "расписание")
-                    _scheduleGroup = true;
-                var cmd = _executor.FindCommandByName(commandName); // находит команду по имени
-                if (cmd != null)
-                    cmd.Execute(messageText, botClient, cancellationToken,
-                        update); //выполняет комаду, достает данные и отправляет пользователю
-                else
-                    await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id,
-                        text: "Не знаю такой команды");
             }
         }
     }

@@ -1,15 +1,9 @@
-﻿using Ninject;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Ninject;
 using Telegram.Bot;
-using Telegram.Bot.Exceptions;
 using Telegram.Bot.Extensions.Polling;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Commands;
 using TelegramBot.Infrastructure;
 using TelegramBot.Parsers;
@@ -39,6 +33,8 @@ namespace TelegramBot
 
             container.Bind<MyBotCommand>().To<SendJokesCommand>();
 
+            container.Bind<Writer>().To<WriterWithLinks>().WhenInjectedInto<DocumentLinksCommand>();
+            container.Bind<MyBotCommand>().To<DocumentLinksCommand>();
             return container.Get<ICommandsExecutor>();
         }
 
@@ -54,7 +50,7 @@ namespace TelegramBot
             };
             var commandsExecutor = GetCommandsExecutor(botClient);
             var updateHandler = new MyUpdateHandler(commandsExecutor);
-            // создать через Bind https://ulearn.me/course/cs2/Kollektsii_9187f9a6-281f-4151-a1f9-010d2ff1b54a*/
+            
 
             botClient.StartReceiving(updateHandler);
 
