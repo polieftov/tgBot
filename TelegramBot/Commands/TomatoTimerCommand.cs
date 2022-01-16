@@ -10,7 +10,7 @@ namespace TelegramBot.Commands
 {
     public class TomatoTimerCommand : MyBotCommand
     {
-
+        private bool isRunning;
         private readonly TomatoTimer _tomatoTimer;
         public TomatoTimerCommand(Writer writer, TomatoTimer tomatoTimer)
         {
@@ -25,10 +25,14 @@ namespace TelegramBot.Commands
                 switch (messageText.Split()[1])
                 {
                     case "Start":
+                        if (isRunning)
+                            return "Таймер уже запущен";
+                        isRunning = true;
                         StartTimer(cancellationToken, update);
                         Writer.WriteAsync("Время работать! 25 минут", cancellationToken, update);
                         return "Время работать! 25 минут";
                     case "Stop":
+                        isRunning = false;
                         return StopTimer(cancellationToken, update);
                     default:
                         Writer.WriteAsync("Неизвестная команда таймера", cancellationToken, update);
