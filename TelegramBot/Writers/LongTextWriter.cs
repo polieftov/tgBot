@@ -31,7 +31,7 @@ namespace TelegramBot.Writers
             return new ReplyKeyboardMarkup(keyBoardButtons) { ResizeKeyboard = true };
         }
 
-        public override async Task WriteAsync(string messageText, CancellationToken cancellationToken, Update update)
+        public override async Task WriteAsync(string messageText, CancellationToken cancellationToken, Update update, Dictionary<string, object> settings = null)
         {
             Console.WriteLine(messageText);
             for (var i = 0; i < messageText.Length; i += 4000)
@@ -58,7 +58,5 @@ namespace TelegramBot.Writers
                 }
             }
         }
-
-
     }
 }
