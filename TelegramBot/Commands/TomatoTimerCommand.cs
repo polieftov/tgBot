@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -40,7 +41,8 @@ namespace TelegramBot.Commands
                 }
             else
             {
-                Writer.WriteAsync("Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера", cancellationToken, update);
+                var startStopMarkups = new Dictionary<string, object>() { {"Tomato Start", "Tomato Start"}, {"Tomato Stop", "Tomato Stop"} };
+                Writer.WriteAsync("Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера", cancellationToken, update, startStopMarkups);
                 return "Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера";
             }
         }

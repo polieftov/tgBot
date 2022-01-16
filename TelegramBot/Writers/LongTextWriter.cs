@@ -19,15 +19,18 @@ namespace TelegramBot.Writers
             this.CommandsExecutor = executor;
         }
 
-        private ReplyKeyboardMarkup GetReplyMarkups() //выводит кнопки с возможными командами
+        private ReplyKeyboardMarkup GetReplyMarkups(Dictionary<string, object> markups = null) //выводит кнопки с возможными командами
         {
             var keyBoardButtons = new List<KeyboardButton[]>();
-            var commandNames = CommandsExecutor.Value.GetCommands().Select(command => command.Name).ToArray();
-            for (var i = 0; i < commandNames.Length; i += 1)
+            string[] replyMarkupTextArray = markups == null ?
+                CommandsExecutor.Value.GetCommands().Select(command => command.Name).ToArray() :
+                markups.Keys.ToArray();
+
+            for (var i = 0; i < replyMarkupTextArray.Length; i += 1)
             {
-                var segment = commandNames;//new ArraySegment<string>(commandNames, i, 4).ToArray();
-                keyBoardButtons.Add(new KeyboardButton[1] { segment[i] });
+                keyBoardButtons.Add(new KeyboardButton[1] { replyMarkupTextArray[i] });
             }
+            
             return new ReplyKeyboardMarkup(keyBoardButtons) { ResizeKeyboard = true };
         }
 
@@ -41,14 +44,14 @@ namespace TelegramBot.Writers
                     await BotClient.SendTextMessageAsync(
                         chatId: update.Message.Chat.Id,
                         text: messageText,
-                        replyMarkup: GetReplyMarkups());
+                        replyMarkup: GetReplyMarkups(settings));
                 }
                 else if (messageText.Length < i + 4000)
                 {
                     await BotClient.SendTextMessageAsync(
                         chatId: update.Message.Chat.Id,
                         text: messageText.Substring(i, messageText.Length - 4000),
-                        replyMarkup: GetReplyMarkups());
+                        replyMarkup: GetReplyMarkups(settings));
                 }
                 else
                 {
