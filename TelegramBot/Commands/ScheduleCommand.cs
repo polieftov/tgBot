@@ -26,15 +26,15 @@ namespace TelegramBot.Commands
                 _commandInc = false;
                 return "Введите номер группы";
             }
+            
 
-            var group = messageText.ToUpper();
-
-            if (String.IsNullOrWhiteSpace(group))
+            if (String.IsNullOrWhiteSpace(messageText))
             {
                 Writer.WriteAsync("Группа не введена", cancellationToken, update);
                 return "Группа не введена";
             }
 
+            var group = messageText.ToUpper();
             _commandInc = true;
             var responseText = _parser.Parse(group);
             Writer.WriteAsync(responseText, cancellationToken, update);

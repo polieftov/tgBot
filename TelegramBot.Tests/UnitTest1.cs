@@ -11,22 +11,24 @@ namespace TelegramBot.Tests
     [TestFixture]
     public class CommandsTests
     {
-        static ScheduleParser parser = new ScheduleParser();
-        ScheduleCommand scheduleCommand = new ScheduleCommand(
-            parser,
-            new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))));
-        public TomatoTimerCommand tomatoCommands = new TomatoTimerCommand(
-            new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))),
-            new TomatoTimer());
         [Test]
         public void CorrectFirstAnswerScheduleTest()
         {
+            ScheduleParser parser = new ScheduleParser();
+            ScheduleCommand scheduleCommand = new ScheduleCommand(
+                parser,
+                new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))));
             Assert.AreEqual("Введите номер группы", scheduleCommand.Execute("расписание", null, new CancellationToken(), null));
         }
 
         [Test]
         public void WrongGroupWhenEmptyStringScheduleTest()
         {
+            ScheduleParser parser = new ScheduleParser();
+            ScheduleCommand scheduleCommand = new ScheduleCommand(
+                parser,
+                new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))));
+            scheduleCommand.Execute("расписание", null, new CancellationToken(), null);
             Assert.AreEqual(
                 "Группа не введена",
                 scheduleCommand.Execute("", null, new CancellationToken(), null));
@@ -35,6 +37,11 @@ namespace TelegramBot.Tests
         [Test]
         public void WrongGroupWhenNullScheduleTest()
         {
+            ScheduleParser parser = new ScheduleParser();
+            ScheduleCommand scheduleCommand = new ScheduleCommand(
+                parser,
+                new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))));
+            scheduleCommand.Execute("расписание", null, new CancellationToken(), null);
             Assert.AreEqual(
                 "Группа не введена",
                 scheduleCommand.Execute(null, null, new CancellationToken(), null));
@@ -43,6 +50,10 @@ namespace TelegramBot.Tests
         [Test]
         public void ReturnsScheduleScheduleTest()
         {
+            ScheduleParser parser = new ScheduleParser();
+            ScheduleCommand scheduleCommand = new ScheduleCommand(
+                parser,
+                new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))));
             scheduleCommand.Execute("расписание", null, new CancellationToken(), null);
             var response = scheduleCommand.Execute("РИ-390013", null, new CancellationToken(), null);
             Assert.AreNotEqual("Группа не введена",
@@ -54,13 +65,20 @@ namespace TelegramBot.Tests
         [Test]
         public void TomatoStartCommandTest()
         {
+            TomatoTimerCommand tomatoCommands = new TomatoTimerCommand(
+            new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))),
+            new TomatoTimer());
             var caseStart = tomatoCommands.Execute("Tomato Start", null, new CancellationToken(), null);
-            Assert.AreEqual("Время работать!, 25 минут", caseStart);
+            var stop = tomatoCommands.Execute("Tomato Stop", null, new CancellationToken(), null);
+            Assert.AreEqual("Время работать! 25 минут", caseStart);
         }
 
         [Test]
         public void TomatoStopCommandTest()
         {
+            TomatoTimerCommand tomatoCommands = new TomatoTimerCommand(
+            new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))),
+            new TomatoTimer());
             var caseStop = tomatoCommands.Execute("Tomato Stop", null, new CancellationToken(), null);
             Assert.AreEqual("Таймер остановлен", caseStop);
         }
@@ -68,36 +86,56 @@ namespace TelegramBot.Tests
         [Test]
         public void TomatoUnknownCommandTest()
         {
+            TomatoTimerCommand tomatoCommands = new TomatoTimerCommand(
+            new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))),
+            new TomatoTimer());
             var caseUnknown = tomatoCommands.Execute("Tomato Stratp", null, new CancellationToken(), null);
+            var stop = tomatoCommands.Execute("Tomato Stop", null, new CancellationToken(), null);
             Assert.AreEqual("Неизвестная команда таймера", caseUnknown);
         }
 
         [Test]
         public void TomatoShowCommandsTest()
         {
+            TomatoTimerCommand tomatoCommands = new TomatoTimerCommand(
+            new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))),
+            new TomatoTimer());
             var caseCommands = tomatoCommands.Execute("", null, new CancellationToken(), null);
+            var stop = tomatoCommands.Execute("Tomato Stop", null, new CancellationToken(), null);
             Assert.AreEqual("Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера", caseCommands);
         }
 
         [Test]
         public void TomatoNullCommandTest()
         {
+            TomatoTimerCommand tomatoCommands = new TomatoTimerCommand(
+            new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))),
+            new TomatoTimer());
             var caseCommands = tomatoCommands.Execute(null, null, new CancellationToken(), null);
+            var stop = tomatoCommands.Execute("Tomato Stop", null, new CancellationToken(), null);
             Assert.AreEqual("Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера", caseCommands);
         }
 
         [Test]
         public void TomatoEmptyCommandTest()
         {
+            TomatoTimerCommand tomatoCommands = new TomatoTimerCommand(
+            new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))),
+            new TomatoTimer());
             var caseCommands = tomatoCommands.Execute("", null, new CancellationToken(), null);
+            var stop = tomatoCommands.Execute("Tomato Stop", null, new CancellationToken(), null);
             Assert.AreEqual("Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера", caseCommands);
         }
 
         [Test]
         public void TomatoAlreadyStartTest()
         {
+            TomatoTimerCommand tomatoCommands = new TomatoTimerCommand(
+            new LongTextWriter(null, new Lazy<ICommandsExecutor>(() => new CommandsExecutor(new MyBotCommand[0]))),
+            new TomatoTimer());
             var caseCommands = tomatoCommands.Execute("Tomato Start", null, new CancellationToken(), null);
             var caseCommandsAgain = tomatoCommands.Execute("Tomato Start", null, new CancellationToken(), null);
+            var stop = tomatoCommands.Execute("Tomato Stop", null, new CancellationToken(), null);
             Assert.AreEqual("Таймер уже запущен", caseCommandsAgain);
         }
     }
@@ -113,6 +151,7 @@ namespace TelegramBot.Tests
             TomatoTimer tomato = new TomatoTimer(0.01, 0.01, 0.01);
             tomato.StartTimer();
             TomatoTimerState = TomatoTimerStateEnum.Work;
+            tomato.StopTimer();
             Assert.AreEqual(TomatoTimerState, tomato.TomatoTimerState);
         }
 
@@ -123,7 +162,7 @@ namespace TelegramBot.Tests
             TomatoTimerState = TomatoTimerStateEnum.ShortChill;
             tomato.StartTimer();
             Thread.Sleep(700);
-            tomato.StartTimer();
+            tomato.StopTimer();
             Assert.AreEqual(TomatoTimerState, tomato.TomatoTimerState);
         }
 
@@ -134,6 +173,7 @@ namespace TelegramBot.Tests
             tomato.StartTimer();
             TomatoTimerState = TomatoTimerStateEnum.Work;
             Thread.Sleep(1300);
+            tomato.StopTimer();
             Assert.AreEqual(TomatoTimerState, tomato.TomatoTimerState);
         }
 
@@ -144,6 +184,7 @@ namespace TelegramBot.Tests
             tomato.StartTimer();
             TomatoTimerState = TomatoTimerStateEnum.LongChill;
             Thread.Sleep(1900);
+            tomato.StopTimer();
             Assert.AreEqual(TomatoTimerState, tomato.TomatoTimerState);
         }
 
@@ -154,6 +195,7 @@ namespace TelegramBot.Tests
             tomato.StartTimer();
             TomatoTimerState = TomatoTimerStateEnum.Work;
             Thread.Sleep(2500);
+            tomato.StopTimer();
             Assert.AreEqual(TomatoTimerState, tomato.TomatoTimerState);
         }
     }
