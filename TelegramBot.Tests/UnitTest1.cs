@@ -21,14 +21,14 @@ namespace TelegramBot.Tests
         [Test]
         public void CorrectFirstAnswerScheduleTest()
         {
-            Assert.AreEqual("Введите номер группы", scheduleCommand.Execute("расписание", null, new CancellationToken(), null));
+            Assert.AreEqual("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РіСЂСѓРїРїС‹", scheduleCommand.Execute("СЂР°СЃРїРёСЃР°РЅРёРµ", null, new CancellationToken(), null));
         }
 
         [Test]
         public void WrongGroupWhenEmptyStringScheduleTest()
         {
             Assert.AreEqual(
-                "Группа не введена",
+                "Р“СЂСѓРїРїР° РЅРµ РІРІРµРґРµРЅР°",
                 scheduleCommand.Execute("", null, new CancellationToken(), null));
         }
 
@@ -36,18 +36,18 @@ namespace TelegramBot.Tests
         public void WrongGroupWhenNullScheduleTest()
         {
             Assert.AreEqual(
-                "Группа не введена",
+                "Р“СЂСѓРїРїР° РЅРµ РІРІРµРґРµРЅР°",
                 scheduleCommand.Execute(null, null, new CancellationToken(), null));
         }
 
         [Test]
         public void ReturnsScheduleScheduleTest()
         {
-            scheduleCommand.Execute("расписание", null, new CancellationToken(), null);
-            var response = scheduleCommand.Execute("РИ-390013", null, new CancellationToken(), null);
-            Assert.AreNotEqual("Группа не введена",
+            scheduleCommand.Execute("СЂР°СЃРїРёСЃР°РЅРёРµ", null, new CancellationToken(), null);
+            var response = scheduleCommand.Execute("Р Р-390013", null, new CancellationToken(), null);
+            Assert.AreNotEqual("Р“СЂСѓРїРїР° РЅРµ РІРІРµРґРµРЅР°",
                 response);
-            Assert.AreNotEqual("Введите группу",
+            Assert.AreNotEqual("Р’РІРµРґРёС‚Рµ РіСЂСѓРїРїСѓ",
                 response);
         }
 
@@ -55,42 +55,42 @@ namespace TelegramBot.Tests
         public void TomatoStartCommandTest()
         {
             var caseStart = tomatoCommands.Execute("Tomato Start", null, new CancellationToken(), null);
-            Assert.AreEqual("Время работать!, 25 минут", caseStart);
+            Assert.AreEqual("Р’СЂРµРјСЏ СЂР°Р±РѕС‚Р°С‚СЊ!, 25 РјРёРЅСѓС‚", caseStart);
         }
 
         [Test]
         public void TomatoStopCommandTest()
         {
             var caseStop = tomatoCommands.Execute("Tomato Stop", null, new CancellationToken(), null);
-            Assert.AreEqual("Таймер остановлен", caseStop);
+            Assert.AreEqual("РўР°Р№РјРµСЂ РѕСЃС‚Р°РЅРѕРІР»РµРЅ", caseStop);
         }
 
         [Test]
         public void TomatoUnknownCommandTest()
         {
             var caseUnknown = tomatoCommands.Execute("Tomato Stratp", null, new CancellationToken(), null);
-            Assert.AreEqual("Неизвестная команда таймера", caseUnknown);
+            Assert.AreEqual("РќРµРёР·РІРµСЃС‚РЅР°СЏ РєРѕРјР°РЅРґР° С‚Р°Р№РјРµСЂР°", caseUnknown);
         }
 
         [Test]
         public void TomatoShowCommandsTest()
         {
             var caseCommands = tomatoCommands.Execute("", null, new CancellationToken(), null);
-            Assert.AreEqual("Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера", caseCommands);
+            Assert.AreEqual("Р”РѕРїСѓСЃС‚РёРјС‹Рµ РєРѕРјР°РЅРґС‹: \n Tomato Start - Р—Р°РїСѓСЃРє С‚Р°Р№РјРµСЂР° \n Tomato Stop - РћСЃС‚Р°РЅРѕРІРєР° С‚Р°Р№РјРµСЂР°", caseCommands);
         }
 
         [Test]
         public void TomatoNullCommandTest()
         {
             var caseCommands = tomatoCommands.Execute(null, null, new CancellationToken(), null);
-            Assert.AreEqual("Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера", caseCommands);
+            Assert.AreEqual("Р”РѕРїСѓСЃС‚РёРјС‹Рµ РєРѕРјР°РЅРґС‹: \n Tomato Start - Р—Р°РїСѓСЃРє С‚Р°Р№РјРµСЂР° \n Tomato Stop - РћСЃС‚Р°РЅРѕРІРєР° С‚Р°Р№РјРµСЂР°", caseCommands);
         }
 
         [Test]
         public void TomatoEmptyCommandTest()
         {
             var caseCommands = tomatoCommands.Execute("", null, new CancellationToken(), null);
-            Assert.AreEqual("Допустимые команды: \n Tomato Start - Запуск таймера \n Tomato Stop - Остановка таймера", caseCommands);
+            Assert.AreEqual("Р”РѕРїСѓСЃС‚РёРјС‹Рµ РєРѕРјР°РЅРґС‹: \n Tomato Start - Р—Р°РїСѓСЃРє С‚Р°Р№РјРµСЂР° \n Tomato Stop - РћСЃС‚Р°РЅРѕРІРєР° С‚Р°Р№РјРµСЂР°", caseCommands);
         }
 
         [Test]
@@ -98,7 +98,7 @@ namespace TelegramBot.Tests
         {
             var caseCommands = tomatoCommands.Execute("Tomato Start", null, new CancellationToken(), null);
             var caseCommandsAgain = tomatoCommands.Execute("Tomato Start", null, new CancellationToken(), null);
-            Assert.AreEqual("Таймер уже запущен", caseCommandsAgain);
+            Assert.AreEqual("РўР°Р№РјРµСЂ СѓР¶Рµ Р·Р°РїСѓС‰РµРЅ", caseCommandsAgain);
         }
     }
 
