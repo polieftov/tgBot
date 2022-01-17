@@ -9,7 +9,6 @@ namespace TelegramBot.Writers
 {
     public class WriterWithLinks : Writer
     {
-
         public WriterWithLinks(ITelegramBotClient _botClient)
         {
             BotClient = _botClient;

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using Telegram.Bot;
-using TelegramBot.Parsers;
 using Telegram.Bot.Types;
+using TelegramBot.Parsers;
 using TelegramBot.Writers;
 
 namespace TelegramBot.Commands
@@ -29,7 +27,7 @@ namespace TelegramBot.Commands
                 return "Введите номер группы";
             }
 
-            var group = messageText;
+            var group = messageText.ToUpper();
 
             if (String.IsNullOrWhiteSpace(group))
             {
@@ -38,7 +36,7 @@ namespace TelegramBot.Commands
             }
 
             _commandInc = true;
-            var responseText = _parser.Parse(group, botClient, cancellationToken, update);
+            var responseText = _parser.Parse(group);
             Writer.WriteAsync(responseText, cancellationToken, update);
             return responseText;
         }

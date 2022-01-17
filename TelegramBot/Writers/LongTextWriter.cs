@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -12,7 +11,6 @@ namespace TelegramBot.Writers
 {
     public class LongTextWriter : Writer
     {
-        
         public LongTextWriter(ITelegramBotClient _botClient, Lazy<ICommandsExecutor> executor)
         {
             BotClient = _botClient;

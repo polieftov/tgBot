@@ -1,57 +1,46 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
-using Telegram.Bot;
-using System.Threading;
-using Telegram.Bot.Types;
 using System.Threading.Tasks;
 using AngleSharp;
+using Newtonsoft.Json.Linq;
 using TelegramBot.Infrastructure.Requests;
-
 
 namespace TelegramBot.Parsers
 {
     public class ScheduleParser : IParser
     {
-        public string Parse(string group, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
+        public string Parse(string group)
         {
             var groupId = GetGroupId(group);
             if (!String.IsNullOrEmpty(groupId))
             {
                 var date = DateTime.Today.ToString("yyyyMMdd");
-
-                var res = ScheduleParseAsync($"https://urfu.ru/api/schedule/groups/lessons/{groupId}/{date}/", botClient, cancellationToken, update);
-
+                var res = ScheduleParseAsync($"https://urfu.ru/api/schedule/groups/lessons/{groupId}/{date}/");
                 return res.Result;
             }
-            else
-                return "Неверная группа";
+            return "Неверная группа";
         }
 
         private string GetGroupId(string group)
         {
-            var getGroupIdrequest = new GetRequest($"https://urfu.ru/api/schedule/groups/suggest/?query={group}");
-            getGroupIdrequest.Run();
-            var groupIdResponse = getGroupIdrequest.Response;
+            var getGroupIdRequest = new GetRequest($"https://urfu.ru/api/schedule/groups/suggest/?query={group}");
+            getGroupIdRequest.Run();
+            var groupIdResponse = getGroupIdRequest.Response;
             if (groupIdResponse != "[]")
             {
                 JArray suggestions = (JArray) JObject.Parse(groupIdResponse)["suggestions"];
 
-                dynamic groupId = suggestions.Descendants().OfType<JObject>().Where(x => x["data"] != null)
-                    .FirstOrDefault();
+                dynamic groupId = suggestions.Descendants().OfType<JObject>().FirstOrDefault(x => x["data"] != null);
                 if (groupId == null)
                     return "";
                 Console.WriteLine(groupId.data);
-
                 return groupId.data.ToString();
             }
-            else
-                return "";
-
+            return "";
         }
 
-        private async Task<string> ScheduleParseAsync(string adress, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
+        private async Task<string> ScheduleParseAsync(string adress)
         {
             var stringBuilderSchedule = new StringBuilder();
             var config = Configuration.Default.WithDefaultLoader();
@@ -86,7 +75,6 @@ namespace TelegramBot.Parsers
                     stringBuilderSchedule.AppendLine(tr.TextContent.Trim());
                 }
             }
-
             return stringBuilderSchedule.ToString();
         }
     }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using TelegramBot.Infrastructure;
@@ -13,14 +10,15 @@ namespace TelegramBot.Commands
     {
         public SendJokesCommand(Writer writer)
         {
-            Name = "/анекдот";
+            Name = "анекдот";
             Writer = writer;
         }
         
         public override string Execute(string messageText, ITelegramBotClient botClient, CancellationToken cancellationToken, Update update)
         {
-            Writer.WriteAsync($"Внимание анекдот! \n {JokesRepository.GetRandomJoke()}", cancellationToken, update); 
-            return JokesRepository.GetRandomJoke();
+            var randomJoke = JokesRepository.GetRandomJoke();
+            Writer.WriteAsync($"Внимание, анекдот! \n {randomJoke}", cancellationToken, update); 
+            return randomJoke;
         }
     }
 }

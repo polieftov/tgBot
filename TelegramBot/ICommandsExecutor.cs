@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TelegramBot.Commands;
+﻿using TelegramBot.Commands;
 
 namespace TelegramBot
 {

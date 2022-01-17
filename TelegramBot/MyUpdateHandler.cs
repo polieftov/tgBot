@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
-using TelegramBot.Writers;
 
 namespace TelegramBot
 {
@@ -39,14 +37,12 @@ namespace TelegramBot
         {
             if (update.Message != null)
             {
-
-
                 var messageText = update.Message.Text;
                 if (messageText != null)
                 {
                     if (_scheduleGroup)
                     {
-                        var scheduleCmd = _executor.FindCommandByName(new string[] {"расписание"});
+                        var scheduleCmd = _executor.FindCommandByName(new [] {"расписание"});
                         scheduleCmd.Execute(messageText, botClient, cancellationToken, update);
                         _scheduleGroup = false;
                         return;
@@ -56,9 +52,9 @@ namespace TelegramBot
                     if (splittedText[0] == "расписание")
                         _scheduleGroup = true;
                     var cmd = _executor.FindCommandByName(splittedText); // находит команду по имени
+                    
                     if (cmd != null)
-                        cmd.Execute(messageText, botClient, cancellationToken,
-                            update); //выполняет комаду, достает данные и отправляет пользователю
+                        cmd.Execute(messageText, botClient, cancellationToken, update); //выполняет комаду, достает данные и отправляет пользователю
                     else
                         await botClient.SendTextMessageAsync(chatId: update.Message.Chat.Id,
                             text: "Не знаю такой команды");

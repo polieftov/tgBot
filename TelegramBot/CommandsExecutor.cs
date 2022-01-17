@@ -9,7 +9,7 @@ namespace TelegramBot
         private readonly MyBotCommand[] _commands;
         public CommandsExecutor(MyBotCommand[] commands)
         {
-            this._commands = commands;
+            _commands = commands;
         }
 
         public MyBotCommand FindCommandByName(string[] splittedText)
@@ -24,7 +24,6 @@ namespace TelegramBot
                 commandName += " " + splittedText[i];
                 cmd = _commands.FirstOrDefault(command => string.Equals(command.Name, commandName, StringComparison.InvariantCultureIgnoreCase));
             }
-
             return cmd;
         }
 

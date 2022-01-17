@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ninject;
 using Telegram.Bot;
-using Telegram.Bot.Extensions.Polling;
 using TelegramBot.Commands;
 using TelegramBot.Infrastructure;
 using TelegramBot.Parsers;
@@ -34,9 +33,9 @@ namespace TelegramBot
             container.Bind<MyBotCommand>().To<SendJokesCommand>();
 
             container.Bind<Writer>().To<WriterWithLinks>().WhenInjectedInto<DocumentLinksCommand>();
-            container.Bind<Writer>().To<WriterWithLinks>().WhenInjectedInto<UsefullLinksCommand>();
+            container.Bind<Writer>().To<WriterWithLinks>().WhenInjectedInto<UsefulLinksCommand>();
             container.Bind<MyBotCommand>().To<DocumentLinksCommand>();
-            container.Bind<MyBotCommand>().To<UsefullLinksCommand>();
+            container.Bind<MyBotCommand>().To<UsefulLinksCommand>();
             return container.Get<ICommandsExecutor>();
         }
 
@@ -44,23 +43,12 @@ namespace TelegramBot
         {
             var botClient = new TelegramBotClient("2101396985:AAH_2hzrb0BvarC98LbV1BWQauvV9z_yWMA");
             using var cts = new CancellationTokenSource();
-
-            // StartReceiving does not block the caller thread. Receiving is done on the ThreadPool.
-            var receiverOptions = new ReceiverOptions
-            {
-                AllowedUpdates = { } // receive all update types
-            };
             var commandsExecutor = GetCommandsExecutor(botClient);
             var updateHandler = new MyUpdateHandler(commandsExecutor);
-            
-
             botClient.StartReceiving(updateHandler);
-
             var me = await botClient.GetMeAsync();
-
             Console.WriteLine($"Start listening for @{me.Username}");
             Console.ReadLine();
-
             cts.Cancel();
         }
 
