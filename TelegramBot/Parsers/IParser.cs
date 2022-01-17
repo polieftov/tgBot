@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TelegramBot
+﻿namespace TelegramBot.Parsers
 {
     public interface IParser //содержит методы для извлечения информации с сайта
     {
